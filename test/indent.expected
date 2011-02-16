@@ -19,7 +19,7 @@ x
 ---- It should indent case 1 properly. 
 .
 ---- It should indent case 2 properly. 
-x
+.
 
 ==== guards 
 ---- It should indent case 1 properly. 
@@ -83,7 +83,7 @@ In data_statements
 It should indent data statement with record syntax properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['data Foo = Foo {', '  foo :: Int,', '  bar :: Int,', '  baz :: Int', '} deriving (Eq)']
-       got: ['data Foo = Foo {', 'foo :: Int,', 'bar :: Int,', 'baz :: Int', '} deriving (Eq)']
+       got: ['data Foo = Foo {', '           foo :: Int,', '           bar :: Int,', '           baz :: Int', '           } deriving (Eq)']
 
 It should indent data statement with multiple data constructors properly.
 FAILED: getline(1, '$') ==? a:expected_text
@@ -91,20 +91,12 @@ FAILED: getline(1, '$') ==? a:expected_text
        got: ['data Foo = Bar', '  | Baz', '  | Qux']
 
 
-In function_definition 
-
-It should indent case 2 properly.
-FAILED: getline(1, '$') ==? a:expected_text
-  expected: ['f a b = g a >>=', '        h b']
-       got: ['f a b = g a >>=', 'h b']
-
-
 In guards 
 
 It should indent case 1-x properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['f a b', '  | a == b = a .', '             b', '  | otherwise = ...']
-       got: ['f a b', '| a == b = a .', 'b', '| otherwise = ...']
+       got: ['f a b', '| a == b = a .', '           b', '           | otherwise = ...']
 
 It should indent case 2 properly.
 FAILED: getline(1, '$') ==? a:expected_text
@@ -130,12 +122,12 @@ In list_comprehension
 It should indent case 1 properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['indices =  [(r, c) | r <- [1..9],', '                     c <- [1..9]]']
-       got: ['indices =  [(r, c) | r <- [1..9],', 'c <- [1..9]]']
+       got: ['indices =  [(r, c) | r <- [1..9],', '           c <- [1..9]]']
 
 It should indent case 2 properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['indices =  [(r, c)', '            | r <- [1..9],', '              c <- [1..9]]']
-       got: ['indices =  [(r, c) | r <- [1..9],', 'c <- [1..9]]']
+       got: ['indices =  [(r, c) | r <- [1..9],', '           c <- [1..9]]']
 
 
 In module_statements 
@@ -151,7 +143,7 @@ In record_syntax
 It should indent case 1 properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['foo = Foo {a = "f",', '           b = "o",', '           c = "o"}']
-       got: ['foo = Foo {a = "f",', 'b = "o",', 'c = "o"}']
+       got: ['foo = Foo {a = "f",', '      b = "o",', '          c = "o"}']
 
 
 In tuples 
@@ -159,7 +151,7 @@ In tuples
 It should indent case 1 properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['foo = ("f",', '       "o",', '       "o")']
-       got: ['foo = ("f",', '"o",', '"o")']
+       got: ['foo = ("f",', '      "o",', '      "o")']
 
 
-21 examples, 13 failures
+21 examples, 12 failures

@@ -97,6 +97,15 @@ function! GetHaskellIndent()
       return indent(n1) + &l:shiftwidth
     endif
 
+    " Case: Function definition (2)
+    "   f a b = g a >>=<*>
+    "   ########<|>
+    let R = '\v^(.{-}\s+\=\s+)\S.{-}[^A-Za-z0-9_"'')}\]]\s*(--.*)?$'
+    let xs = matchlist(l1, R)
+    if xs != []
+      return len(xs[1])
+    endif
+
     " Case: 'where' clause (2)
     "   foo = bar . baz
     "   ##where<*>
