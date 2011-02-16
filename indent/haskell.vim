@@ -75,6 +75,13 @@ function! GetHaskellIndent()
       return indent(n1) + &l:shiftwidth
     endif
 
+    " Case: 'do' notation (1)
+    "   f a b = do<*>
+    "   ##<|>
+    if l1 =~# '\v^\s*.{-}<do>\s*(--.*)?$'
+      return indent(n1) + &l:shiftwidth
+    endif
+
     " Otherwise: Keep the previous indentation level.
     return -1
   else

@@ -11,7 +11,7 @@ x
 
 ==== do_notation 
 ---- It should indent case 1 properly. 
-x
+.
 ---- It should indent case 2 properly. 
 x
 
@@ -92,11 +92,6 @@ FAILED: getline(1, '$') ==? a:expected_text
 
 
 In do_notation 
-
-It should indent case 1 properly.
-FAILED: getline(1, '$') ==? a:expected_text
-  expected: ['f a b = do', '  g a b']
-       got: ['f a b = do', 'g a b']
 
 It should indent case 2 properly.
 FAILED: getline(1, '$') ==? a:expected_text
@@ -198,4 +193,4 @@ FAILED: getline(1, '$') ==? a:expected_text
        got: ['f a b = g a b', 'where', 'g x y = a b', 'h x y = a b']
 
 
-21 examples, 19 failures
+21 examples, 18 failures
