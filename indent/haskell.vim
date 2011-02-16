@@ -22,6 +22,11 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
+" Notation:
+" * "#" indicates a whitespace for indentation.
+" * "<|>" indicates the cursor position after automatic indentation.
+" * "<*>" indicates the cursor position before automatic indentation.
+
 if exists('b:did_indent')
   finish
 endif
@@ -29,6 +34,7 @@ endif
 
 
 
+setlocal autoindent
 setlocal indentexpr=GetHaskellIndent()
 setlocal indentkeys=!^F,o,O
 
@@ -48,14 +54,19 @@ let b:undo_indent = 'setlocal '.join([
 
 
 function! GetHaskellIndent()
-  let L = getline(v:lnum - 1)
+  let n0 = v:lnum
+  let n1 = v:lnum - 1
+  let l0 = getline(n0)
+  let l1 = getline(n1)
+  let at_new_line_p = (l0 =~# '^\s*$')
 
-  let _ = matchend(L, '\s*=\s*\<do\>\s*')
-  if 0 <= _
-    return _
+  if at_new_line_p
+    " Otherwise: Keep the previous indentation level.
+    return -1
+  else
+    " Otherwise: Keep the previous indentation level.
+    return -1
   endif
-
-  return indent(v:lnum - 1)
 endfunction
 
 
