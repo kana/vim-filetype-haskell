@@ -36,7 +36,7 @@ endif
 
 setlocal autoindent
 setlocal indentexpr=GetHaskellIndent()
-setlocal indentkeys=!^F,o,O
+setlocal indentkeys=!^F,o,O,=where
 
 setlocal expandtab
 setlocal softtabstop=2
@@ -97,9 +97,24 @@ function! GetHaskellIndent()
       return indent(n1) + &l:shiftwidth
     endif
 
+    " Case: 'where' clause (2)
+    "   foo = bar . baz
+    "   ##where<*>
+    "   ####<|>
+    if l1 =~# '\v^\s*<where>\s*(--.*)?$'
+      return indent(n1) + &l:shiftwidth
+    endif
+
     " Otherwise: Keep the previous indentation level.
     return -1
   else
+    " Case: 'where' clause (1)
+    "   foo = bar . baz
+    "   ##where<*><|>
+    if l0 =~# '\v^\s*<where>'
+      return indent(prevnonblank(n1)) + &l:shiftwidth
+    endif
+
     " Otherwise: Keep the previous indentation level.
     return -1
   endif
