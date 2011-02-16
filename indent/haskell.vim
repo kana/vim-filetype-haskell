@@ -90,6 +90,13 @@ function! GetHaskellIndent()
       return len(xs[1])
     endif
 
+    " Case: Function definition (1)
+    "   f a b =<*>
+    "   ##<|>
+    if l1 =~# '\v^\s*<\S.*\s+\=\s*(--.*)?$'
+      return indent(n1) + &l:shiftwidth
+    endif
+
     " Otherwise: Keep the previous indentation level.
     return -1
   else
