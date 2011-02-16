@@ -82,6 +82,14 @@ function! GetHaskellIndent()
       return indent(n1) + &l:shiftwidth
     endif
 
+    " Case: 'do' notation (2)
+    "   f a b = do g a<*>
+    "   ###########<|>
+    let xs = matchlist(l1, '\v^(\s*.{-}<do>\s*)\S')
+    if xs != []
+      return len(xs[1])
+    endif
+
     " Otherwise: Keep the previous indentation level.
     return -1
   else
