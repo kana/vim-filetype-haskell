@@ -61,6 +61,13 @@ function! GetHaskellIndent()
   let at_new_line_p = (l0 =~# '^\s*$')
 
   if at_new_line_p
+    " Case: 'class' statement
+    "   class Monad m where<*>
+    "   ##<|>
+    if l1 =~# '\v^\s*<class>.*<where>'
+      return indent(n1) + &l:shiftwidth
+    endif
+
     " Otherwise: Keep the previous indentation level.
     return -1
   else

@@ -51,7 +51,7 @@ x
 
 ==== special_statements 
 ---- It should indent "class" statement properly. 
-x
+.
 ---- It should indent "instance" statement properly. 
 x
 
@@ -179,11 +179,6 @@ FAILED: getline(1, '$') ==? a:expected_text
 
 In special_statements 
 
-It should indent "class" statement properly.
-FAILED: getline(1, '$') ==? a:expected_text
-  expected: ['class Monad m where', '  (>>=) :: forall a b. m a -> (a -> m b) -> m b']
-       got: ['class Monad m where', '(>>=) :: forall a b. m a -> (a -> m b) -> m b']
-
 It should indent "instance" statement properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['instance Monad Maybe where', '  Nothing >>= _ = Nothing']
@@ -211,4 +206,4 @@ FAILED: getline(1, '$') ==? a:expected_text
        got: ['f a b = g a b', 'where', 'g x y = a b', 'h x y = a b']
 
 
-21 examples, 21 failures
+21 examples, 20 failures
