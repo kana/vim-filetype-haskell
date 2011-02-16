@@ -53,7 +53,7 @@ x
 ---- It should indent "class" statement properly. 
 .
 ---- It should indent "instance" statement properly. 
-x
+.
 
 ==== tuples 
 ---- It should indent case 1 properly. 
@@ -177,14 +177,6 @@ FAILED: getline(1, '$') ==? a:expected_text
        got: ['foo = Foo {a = "f",', 'b = "o",', 'c = "o"}']
 
 
-In special_statements 
-
-It should indent "instance" statement properly.
-FAILED: getline(1, '$') ==? a:expected_text
-  expected: ['instance Monad Maybe where', '  Nothing >>= _ = Nothing']
-       got: ['instance Monad Maybe where', 'Nothing >>= _ = Nothing']
-
-
 In tuples 
 
 It should indent case 1 properly.
@@ -206,4 +198,4 @@ FAILED: getline(1, '$') ==? a:expected_text
        got: ['f a b = g a b', 'where', 'g x y = a b', 'h x y = a b']
 
 
-21 examples, 20 failures
+21 examples, 19 failures

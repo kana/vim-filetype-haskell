@@ -68,6 +68,13 @@ function! GetHaskellIndent()
       return indent(n1) + &l:shiftwidth
     endif
 
+    " Case: 'instance' statement
+    "   instance Eq Foo where<*>
+    "   ##<|>
+    if l1 =~# '\v^\s*<instance>.*<where>'
+      return indent(n1) + &l:shiftwidth
+    endif
+
     " Otherwise: Keep the previous indentation level.
     return -1
   else
