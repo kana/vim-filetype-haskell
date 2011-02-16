@@ -1,0 +1,214 @@
+not found in 'runtimepath': "ftdetect/*.vim"
+==== case 
+---- It should indent case 1 properly. 
+x
+
+==== data_statements 
+---- It should indent data statement with record syntax properly. 
+x
+---- It should indent data statement with multiple data constructors properly. 
+x
+
+==== do_notation 
+---- It should indent case 1 properly. 
+x
+---- It should indent case 2 properly. 
+x
+
+==== function_definition 
+---- It should indent case 1 properly. 
+x
+---- It should indent case 2 properly. 
+x
+
+==== guards 
+---- It should indent case 1 properly. 
+x
+---- It should indent case 1-x properly. 
+x
+---- It should indent case 2 properly. 
+x
+
+==== if 
+---- It should indent case 1 properly. 
+x
+---- It should indent case 2 properly. 
+x
+
+==== list_comprehension 
+---- It should indent case 1 properly. 
+x
+---- It should indent case 2 properly. 
+x
+
+==== module_statements 
+---- It should indent case 1 properly. 
+x
+
+==== record_syntax 
+---- It should indent case 1 properly. 
+x
+
+==== special_statements 
+---- It should indent "class" statement properly. 
+x
+---- It should indent "instance" statement properly. 
+x
+
+==== tuples 
+---- It should indent case 1 properly. 
+x
+
+==== where_clause 
+---- It should indent case 1 properly. 
+x
+---- It should indent case 2 properly. 
+x
+
+
+
+**** Result ****
+
+
+In case 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = case g a of', '  "foo" -> "bar"']
+       got: ['f a b = case g a of', '"foo" -> "bar"']
+
+
+In data_statements 
+
+It should indent data statement with record syntax properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['data Foo = Foo {', '  foo :: Int,', '  bar :: Int,', '  baz :: Int', '} deriving (Eq)']
+       got: ['data Foo = Foo {', 'foo :: Int,', 'bar :: Int,', 'baz :: Int', '} deriving (Eq)']
+
+It should indent data statement with multiple data constructors properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['data Foo = Bar', '         | Baz', '         | Qux']
+       got: ['data Foo = Bar', '| Baz', '| Qux']
+
+
+In do_notation 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = do', '  g a b']
+       got: ['f a b = do', 'g a b']
+
+It should indent case 2 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = do g a', '           h b']
+       got: ['f a b = do g a', 'h b']
+
+
+In function_definition 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b =', '  g a b']
+       got: ['f a b =', 'g a b']
+
+It should indent case 2 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = g a >>=', '        h b']
+       got: ['f a b = g a >>=', 'h b']
+
+
+In guards 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b', '  | a == b = ...', '  | otherwise = ...']
+       got: ['f a b', '| a == b = ...', '| otherwise = ...']
+
+It should indent case 1-x properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b', '  | a == b = a .', '             b', '  | otherwise = ...']
+       got: ['f a b', '| a == b = a .', 'b', '| otherwise = ...']
+
+It should indent case 2 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b | a == b = a . b', '      | otherwise = ...']
+       got: ['f a b | a == b = a . b', '| otherwise = ...']
+
+
+In if 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = if g a', '          then b', '          else g b']
+       got: ['f a b = if g a', 'then b', 'else g b']
+
+It should indent case 2 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = if g a', '          then g a .', '               h b', '          else g b']
+       got: ['f a b = if g a', 'then g a .', 'h b', 'else g b']
+
+
+In list_comprehension 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['indices =  [(r, c) | r <- [1..9],', '                     c <- [1..9]]']
+       got: ['indices =  [(r, c) | r <- [1..9],', 'c <- [1..9]]']
+
+It should indent case 2 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['indices =  [(r, c)', '            | r <- [1..9],', '              c <- [1..9]]']
+       got: ['indices =  [(r, c) | r <- [1..9],', 'c <- [1..9]]']
+
+
+In module_statements 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['module Foo (', '  foo,', '  bar,', '  baz', ') where']
+       got: ['module Foo (', 'foo,', 'bar,', 'baz', ') where']
+
+
+In record_syntax 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['foo = Foo {a = "f",', '           b = "o",', '           c = "o"}']
+       got: ['foo = Foo {a = "f",', 'b = "o",', 'c = "o"}']
+
+
+In special_statements 
+
+It should indent "class" statement properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['class Monad m where', '  (>>=) :: forall a b. m a -> (a -> m b) -> m b']
+       got: ['class Monad m where', '(>>=) :: forall a b. m a -> (a -> m b) -> m b']
+
+It should indent "instance" statement properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['instance Monad Maybe where', '  Nothing >>= _ = Nothing']
+       got: ['instance Monad Maybe where', 'Nothing >>= _ = Nothing']
+
+
+In tuples 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['foo = ("f",', '       "o",', '       "o")']
+       got: ['foo = ("f",', '"o",', '"o")']
+
+
+In where_clause 
+
+It should indent case 1 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = g a b', '  where', '    g x y = ...']
+       got: ['f a b = g a b', 'where', 'g x y = ...']
+
+It should indent case 2 properly.
+FAILED: getline(1, '$') ==? a:expected_text
+  expected: ['f a b = g a b', '  where', '    g x y = a b', '    h x y = a b']
+       got: ['f a b = g a b', 'where', 'g x y = a b', 'h x y = a b']
+
+
+21 examples, 21 failures

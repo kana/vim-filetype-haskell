@@ -1,0 +1,361 @@
+filetype plugin indent on
+
+function! s:check(title, input_text, expected_text)
+  execute 'It should indent' a:title 'properly.'
+
+  tabnew
+  setfiletype haskell
+
+  let input = join(a:input_text, "\n")
+  silent execute 'normal!' "i\<C-r>=input\<Return>\<Esc>"
+
+  Should getline(1, '$') ==? a:expected_text
+
+  tabclose!
+endfunction
+
+
+
+
+function s:describe__special_statements()  "{{{1
+  call s:check(
+  \   '"class" statement',
+  \   [
+  \     'class Monad m where',
+  \     '(>>=) :: forall a b. m a -> (a -> m b) -> m b',
+  \   ],
+  \   [
+  \     'class Monad m where',
+  \     '  (>>=) :: forall a b. m a -> (a -> m b) -> m b',
+  \   ]
+  \ )
+  call s:check(
+  \   '"instance" statement',
+  \   [
+  \     'instance Monad Maybe where',
+  \     'Nothing >>= _ = Nothing',
+  \   ],
+  \   [
+  \     'instance Monad Maybe where',
+  \     '  Nothing >>= _ = Nothing',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__do_notation()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'f a b = do',
+  \     'g a b',
+  \   ],
+  \   [
+  \     'f a b = do',
+  \     '  g a b',
+  \   ]
+  \ )
+  call s:check(
+  \   'case 2',
+  \   [
+  \     'f a b = do g a',
+  \     'h b',
+  \   ],
+  \   [
+  \     'f a b = do g a',
+  \     '           h b',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__function_definition()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'f a b =',
+  \     'g a b',
+  \   ],
+  \   [
+  \     'f a b =',
+  \     '  g a b',
+  \   ]
+  \ )
+  call s:check(
+  \   'case 2',
+  \   [
+  \     'f a b = g a >>=',
+  \     'h b',
+  \   ],
+  \   [
+  \     'f a b = g a >>=',
+  \     '        h b',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__where_clause()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'f a b = g a b',
+  \     'where',
+  \     'g x y = ...',
+  \   ],
+  \   [
+  \     'f a b = g a b',
+  \     '  where',
+  \     '    g x y = ...',
+  \   ]
+  \ )
+  call s:check(
+  \   'case 2',
+  \   [
+  \     'f a b = g a b',
+  \     'where',
+  \     'g x y = a b',
+  \     'h x y = a b',
+  \   ],
+  \   [
+  \     'f a b = g a b',
+  \     '  where',
+  \     '    g x y = a b',
+  \     '    h x y = a b',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__guards()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'f a b',
+  \     '| a == b = ...',
+  \     '| otherwise = ...',
+  \   ],
+  \   [
+  \     'f a b',
+  \     '  | a == b = ...',
+  \     '  | otherwise = ...',
+  \   ]
+  \ )
+  call s:check(
+  \   'case 1-x',
+  \   [
+  \     'f a b',
+  \     '| a == b = a .',
+  \     'b',
+  \     '| otherwise = ...',
+  \   ],
+  \   [
+  \     'f a b',
+  \     '  | a == b = a .',
+  \     '             b',
+  \     '  | otherwise = ...',
+  \   ]
+  \ )
+  call s:check(
+  \   'case 2',
+  \   [
+  \     'f a b | a == b = a . b',
+  \     '| otherwise = ...',
+  \   ],
+  \   [
+  \     'f a b | a == b = a . b',
+  \     '      | otherwise = ...',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__module_statements()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'module Foo (',
+  \     'foo,',
+  \     'bar,',
+  \     'baz',
+  \     ') where',
+  \   ],
+  \   [
+  \     'module Foo (',
+  \     '  foo,',
+  \     '  bar,',
+  \     '  baz',
+  \     ') where',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__data_statements()  "{{{1
+  call s:check(
+  \   'data statement with record syntax',
+  \   [
+  \     'data Foo = Foo {',
+  \     'foo :: Int,',
+  \     'bar :: Int,',
+  \     'baz :: Int',
+  \     '} deriving (Eq)',
+  \   ],
+  \   [
+  \     'data Foo = Foo {',
+  \     '  foo :: Int,',
+  \     '  bar :: Int,',
+  \     '  baz :: Int',
+  \     '} deriving (Eq)',
+  \   ]
+  \ )
+  call s:check(
+  \   'data statement with multiple data constructors',
+  \   [
+  \     'data Foo = Bar',
+  \     '| Baz',
+  \     '| Qux',
+  \   ],
+  \   [
+  \     'data Foo = Bar',
+  \     '         | Baz',
+  \     '         | Qux',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__list_comprehension()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'indices =  [(r, c) | r <- [1..9],',
+  \     'c <- [1..9]]',
+  \   ],
+  \   [
+  \     'indices =  [(r, c) | r <- [1..9],',
+  \     '                     c <- [1..9]]',
+  \   ]
+  \ )
+  call s:check(
+  \   'case 2',
+  \   [
+  \     'indices =  [(r, c) | r <- [1..9],',
+  \     'c <- [1..9]]',
+  \   ],
+  \   [
+  \     'indices =  [(r, c)',
+  \     '            | r <- [1..9],',
+  \     '              c <- [1..9]]',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__tuples()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'foo = ("f",',
+  \     '"o",',
+  \     '"o")',
+  \   ],
+  \   [
+  \     'foo = ("f",',
+  \     '       "o",',
+  \     '       "o")',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__record_syntax()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'foo = Foo {a = "f",',
+  \     'b = "o",',
+  \     'c = "o"}',
+  \   ],
+  \   [
+  \     'foo = Foo {a = "f",',
+  \     '           b = "o",',
+  \     '           c = "o"}',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__if()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'f a b = if g a',
+  \     'then b',
+  \     'else g b',
+  \   ],
+  \   [
+  \     'f a b = if g a',
+  \     '          then b',
+  \     '          else g b',
+  \   ]
+  \ )
+  call s:check(
+  \   'case 2',
+  \   [
+  \     'f a b = if g a',
+  \     'then g a .',
+  \     'h b',
+  \     'else g b',
+  \   ],
+  \   [
+  \     'f a b = if g a',
+  \     '          then g a .',
+  \     '               h b',
+  \     '          else g b',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+function s:describe__case()  "{{{1
+  call s:check(
+  \   'case 1',
+  \   [
+  \     'f a b = case g a of',
+  \     '"foo" -> "bar"',
+  \   ],
+  \   [
+  \     'f a b = case g a of',
+  \     '  "foo" -> "bar"',
+  \   ]
+  \ )
+endfunction
+
+
+
+
+" __END__  "{{{1
+" vim: filetype=vim foldmethod=marker
