@@ -36,7 +36,7 @@ endif
 
 setlocal autoindent
 setlocal indentexpr=GetHaskellIndent()
-setlocal indentkeys=!^F,o,O,=where
+setlocal indentkeys=!^F,o,O,=where,0|
 
 setlocal expandtab
 setlocal softtabstop=2
@@ -114,6 +114,16 @@ function! GetHaskellIndent()
     if l0 =~# '\v^\s*<where>'
       return indent(prevnonblank(n1)) + &l:shiftwidth
     endif
+
+    " Case: Guards (1)
+    "   f a b
+    "   ##|<*><|>
+    if l0 =~# '\v^\s*\|'
+      let np = prevnonblank(n1)
+      let after_guard_p = (getline(np) =~# '\v^\s*\|')
+      return indent(np) + (after_guard_p ? 0 : &l:shiftwidth)
+    endif
+
 
     " Otherwise: Keep the previous indentation level.
     return -1

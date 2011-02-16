@@ -23,7 +23,7 @@ x
 
 ==== guards 
 ---- It should indent case 1 properly. 
-x
+.
 ---- It should indent case 1-x properly. 
 x
 ---- It should indent case 2 properly. 
@@ -88,7 +88,7 @@ FAILED: getline(1, '$') ==? a:expected_text
 It should indent data statement with multiple data constructors properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['data Foo = Bar', '         | Baz', '         | Qux']
-       got: ['data Foo = Bar', '| Baz', '| Qux']
+       got: ['data Foo = Bar', '  | Baz', '  | Qux']
 
 
 In function_definition 
@@ -101,11 +101,6 @@ FAILED: getline(1, '$') ==? a:expected_text
 
 In guards 
 
-It should indent case 1 properly.
-FAILED: getline(1, '$') ==? a:expected_text
-  expected: ['f a b', '  | a == b = ...', '  | otherwise = ...']
-       got: ['f a b', '| a == b = ...', '| otherwise = ...']
-
 It should indent case 1-x properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['f a b', '  | a == b = a .', '             b', '  | otherwise = ...']
@@ -114,7 +109,7 @@ FAILED: getline(1, '$') ==? a:expected_text
 It should indent case 2 properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['f a b | a == b = a . b', '      | otherwise = ...']
-       got: ['f a b | a == b = a . b', '| otherwise = ...']
+       got: ['f a b | a == b = a . b', '  | otherwise = ...']
 
 
 In if 
@@ -167,4 +162,4 @@ FAILED: getline(1, '$') ==? a:expected_text
        got: ['foo = ("f",', '"o",', '"o")']
 
 
-21 examples, 14 failures
+21 examples, 13 failures
