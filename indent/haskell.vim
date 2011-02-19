@@ -36,7 +36,7 @@ endif
 
 setlocal autoindent
 setlocal indentexpr=GetHaskellIndent()
-setlocal indentkeys=!^F,o,O,=where,0|
+setlocal indentkeys=!^F,o,O,=where,0<Bar>
 
 setlocal expandtab
 setlocal softtabstop=2

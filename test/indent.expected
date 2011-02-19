@@ -96,7 +96,7 @@ In guards
 It should indent case 1-x properly.
 FAILED: getline(1, '$') ==? a:expected_text
   expected: ['f a b', '  | a == b = a .', '             b', '  | otherwise = ...']
-       got: ['f a b', '| a == b = a .', '           b', '           | otherwise = ...']
+       got: ['f a b', '  | a == b = a .', '             b', '               | otherwise = ...']
 
 It should indent case 2 properly.
 FAILED: getline(1, '$') ==? a:expected_text
