@@ -96,6 +96,16 @@ function s:describe__function_definition()  "{{{1
   \     '        h b',
   \   ]
   \ )
+  call s:check(
+  \   'case 3',
+  \   [
+  \     "f a b = g a >>=h b\<Left>\<Left>\<Left>\<Return>",
+  \   ],
+  \   [
+  \     'f a b = g a >>=',
+  \     '        h b',
+  \   ]
+  \ )
 endfunction
 
 

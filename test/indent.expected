@@ -20,6 +20,8 @@ x
 .
 ---- It should indent case 2 properly. 
 .
+---- It should indent case 3 properly. 
+.
 
 ==== guards 
 ---- It should indent case 1 properly. 
@@ -154,4 +156,4 @@ FAILED: getline(1, '$') ==? a:expected_text
        got: ['foo = ("f",', '      "o",', '      "o")']
 
 
-21 examples, 12 failures
+22 examples, 12 failures

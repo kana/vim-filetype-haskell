@@ -59,8 +59,9 @@ function! GetHaskellIndent()
   let n1 = v:lnum - 1
   let l0 = getline(n0)
   let l1 = getline(n1)
-  let at_new_line_p = (l0 =~# '^\s*$')
 
+    " NB: l0 may have trailing characters.  For example: iloveyou<Left><Return>
+  let at_new_line_p = (col('.') - 1) == matchend(l0, '^\s*')
   if at_new_line_p
     " Case: 'class' statement
     "   class Monad m where<*>
